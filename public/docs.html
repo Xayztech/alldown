@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>API Documentation — AllDown</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css"/>
+<link rel="stylesheet" href="/docs.css"/>
+</head>
+<body class="docs-body">
+
+<!-- ── Sidebar ─────────────────────────────────────────────── -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <span class="sidebar-logo">⬇ AllDown</span>
+    <button class="sidebar-close" id="sidebarClose">✕</button>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="/" class="nav-link">🏠 Home</a>
+    <div class="nav-divider"></div>
+    <span class="nav-section-label">API Reference</span>
+    <a href="#overview" class="nav-link">📖 Overview</a>
+    <a href="#base-url" class="nav-link">🌐 Base URL</a>
+    <a href="#auth" class="nav-link">🔑 Auth</a>
+    <a href="#rate-limit" class="nav-link">⏱ Rate Limit</a>
+    <div class="nav-divider"></div>
+    <span class="nav-section-label">Downloader</span>
+    <a href="#dl-universal" class="nav-link">⚡ Universal</a>
+    <a href="#dl-youtube" class="nav-link">▶ YouTube</a>
+    <a href="#dl-tiktok" class="nav-link">🎵 TikTok</a>
+    <a href="#dl-instagram" class="nav-link">📸 Instagram</a>
+    <a href="#dl-twitter" class="nav-link">🐦 Twitter</a>
+    <a href="#dl-facebook" class="nav-link">📘 Facebook</a>
+    <a href="#dl-scribd" class="nav-link">📄 Scribd</a>
+    <div class="nav-divider"></div>
+    <span class="nav-section-label">Search</span>
+    <a href="#search-youtube" class="nav-link">▶ YouTube Search</a>
+    <a href="#search-web" class="nav-link">🌐 Web Search</a>
+    <a href="#search-all" class="nav-link">🔍 All Search</a>
+    <div class="nav-divider"></div>
+    <span class="nav-section-label">Examples</span>
+    <a href="#examples" class="nav-link">💡 Code Examples</a>
+    <a href="#errors" class="nav-link">❌ Error Codes</a>
+    <a href="#deploy" class="nav-link">🚀 Deploy Guide</a>
+  </nav>
+  <div class="sidebar-footer">
+    <span class="api-badge">v1.0.0</span>
+    <span class="api-badge">Node 24</span>
+  </div>
+</aside>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- ── Topbar ─────────────────────────────────────────────── -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <button class="hamburger" id="hamburgerBtn"><span></span><span></span><span></span></button>
+    <a href="/" class="topbar-logo">⬇ <strong>AllDown</strong></a>
+    <nav class="topbar-nav">
+      <a href="/" class="tlink">Home</a>
+      <a href="/docs/api" class="tlink active">API Docs</a>
+    </nav>
+    <a href="/" class="btn-api-docs">← Back to App</a>
+  </div>
+</header>
+
+<!-- ── Docs Layout ────────────────────────────────────────── -->
+<div class="docs-layout">
+  <!-- TOC Sidebar (desktop) -->
+  <aside class="docs-toc">
+    <div class="toc-inner">
+      <div class="toc-title">On this page</div>
+      <nav class="toc-nav">
+        <a href="#overview" class="toc-link">Overview</a>
+        <a href="#base-url" class="toc-link">Base URL</a>
+        <a href="#auth" class="toc-link">Authentication</a>
+        <a href="#rate-limit" class="toc-link">Rate Limiting</a>
+        <a href="#endpoints" class="toc-link toc-section">Downloader Endpoints</a>
+        <a href="#dl-universal" class="toc-link toc-sub">Universal Detect</a>
+        <a href="#dl-youtube" class="toc-link toc-sub">YouTube</a>
+        <a href="#dl-tiktok" class="toc-link toc-sub">TikTok</a>
+        <a href="#dl-instagram" class="toc-link toc-sub">Instagram</a>
+        <a href="#dl-twitter" class="toc-link toc-sub">Twitter</a>
+        <a href="#dl-facebook" class="toc-link toc-sub">Facebook</a>
+        <a href="#dl-scribd" class="toc-link toc-sub">Scribd</a>
+        <a href="#search" class="toc-link toc-section">Search Endpoints</a>
+        <a href="#search-youtube" class="toc-link toc-sub">YouTube</a>
+        <a href="#search-web" class="toc-link toc-sub">Web</a>
+        <a href="#search-all" class="toc-link toc-sub">All</a>
+        <a href="#examples" class="toc-link toc-section">Code Examples</a>
+        <a href="#errors" class="toc-link toc-sub">Error Codes</a>
+        <a href="#deploy" class="toc-link toc-sub">Deploy Guide</a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="docs-main">
+
+    <!-- ── Overview ──────────────────────────────────────── -->
+    <section id="overview" class="doc-section">
+      <div class="doc-badge">Overview</div>
+      <h1 class="doc-h1">AllDown API Documentation</h1>
+      <p class="doc-lead">A fast, free REST API to download media from YouTube, TikTok, Instagram, Twitter, Facebook, Scribd, and more. Supports multiple formats, quality selection, and search functionality.</p>
+      <div class="info-cards">
+        <div class="info-card green">
+          <span class="ic-icon">✓</span>
+          <div><strong>Free to use</strong> — No API key required</div>
+        </div>
+        <div class="info-card blue">
+          <span class="ic-icon">⚡</span>
+          <div><strong>60 req/min</strong> — Rate limited per IP</div>
+        </div>
+        <div class="info-card purple">
+          <span class="ic-icon">🌐</span>
+          <div><strong>CORS enabled</strong> — Use from any origin</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Base URL ───────────────────────────────────────── -->
+    <section id="base-url" class="doc-section">
+      <h2 class="doc-h2">Base URL</h2>
+      <div class="doc-code-block">
+        <span class="code-label">BASE URL</span>
+        <pre>https://xayz-downloader.vercel.app</pre>
+      </div>
+      <p>All API endpoints are relative to this base URL. Replace <code>xayz-downloader</code> with your actual Vercel deployment URL.</p>
+    </section>
+
+    <!-- ── Auth ──────────────────────────────────────────── -->
+    <section id="auth" class="doc-section">
+      <h2 class="doc-h2">Authentication</h2>
+      <p>No authentication is required. All endpoints are public. Rate limiting is applied per IP address.</p>
+      <div class="doc-note">
+        <strong>Note:</strong> For production use, consider adding an API key middleware to protect your deployment.
+      </div>
+    </section>
+
+    <!-- ── Rate Limit ─────────────────────────────────────── -->
+    <section id="rate-limit" class="doc-section">
+      <h2 class="doc-h2">Rate Limiting</h2>
+      <table class="doc-table">
+        <thead><tr><th>Window</th><th>Max Requests</th><th>Scope</th></tr></thead>
+        <tbody>
+          <tr><td>1 minute</td><td>60 requests</td><td>Per IP address</td></tr>
+        </tbody>
+      </table>
+      <p>When rate limited, the API returns <code>429 Too Many Requests</code> with:</p>
+      <div class="doc-code-block">
+        <span class="code-label">RESPONSE 429</span>
+        <pre>{ "success": false, "error": "Too many requests, please try again later." }</pre>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         DOWNLOADER ENDPOINTS
+    ══════════════════════════════════════════════════════ -->
+    <section id="endpoints" class="doc-section">
+      <h2 class="doc-h2" style="font-size:1.6rem;border-bottom:1px solid var(--border);padding-bottom:12px;">⬇ Downloader Endpoints</h2>
+    </section>
+
+    <!-- Universal -->
+    <section id="dl-universal" class="doc-section">
+      <h3 class="doc-h3">Universal Downloader (Auto-Detect)</h3>
+      <p>Automatically detects the platform from the URL and routes to the correct handler.</p>
+      <div class="endpoint-row">
+        <span class="method-badge get">GET</span>
+        <code class="endpoint-path">/api/dl?url={url}</code>
+      </div>
+      <div class="endpoint-row">
+        <span class="method-badge post">POST</span>
+        <code class="endpoint-path">/api/dl</code>
+        <span class="body-hint">body: { url }</span>
+      </div>
+      <h4 class="param-title">Query Parameters</h4>
+      <table class="doc-table">
+        <thead><tr><th>Param</th><th>Type</th><th>Required</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>url</code></td><td>string</td><td>✓ Yes</td><td>Any supported platform URL</td></tr>
+          <tr><td><code>format</code></td><td>string</td><td>No</td><td>mp4, mp3, webm, m4a, pdf (default: mp4)</td></tr>
+          <tr><td><code>quality</code></td><td>string</td><td>No</td><td>1080p, 720p, 480p, 360p, 240p, 144p, best (default: 720p)</td></tr>
+        </tbody>
+      </table>
+      <h4 class="param-title">Example Request</h4>
+      <div class="doc-code-block">
+        <span class="code-label">cURL</span>
+        <pre>curl "https://xayz-downloader.vercel.app/api/dl?url=https://youtu.be/dQw4w9WgXcQ&format=mp4&quality=720p"</pre>
+      </div>
+      <h4 class="param-title">Example Response</h4>
+      <div class="doc-code-block">
+        <span class="code-label">JSON</span>
+        <pre>{
+  "success": true,
+  "platform": "youtube",
+  "requested": { "format": "mp4", "quality": "720p" },
+  "data": {
+    "id": "dQw4w9WgXcQ",
+    "title": "Rick Astley - Never Gonna Give You Up",
+    "author": "Rick Astley",
+    "thumbnail": "https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
+    "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "formats": [
+      { "quality": "1080p", "format": "mp4", "label": "Full HD 1080p", "size": "~150MB" },
+      { "quality": "720p", "format": "mp4", "label": "HD 720p", "size": "~80MB" },
+      ...
+    ]
+  }
+}</pre>
+      </div>
+    </section>
+
+    <!-- YouTube -->
+    <section id="dl-youtube" class="doc-section">
+      <h3 class="doc-h3">▶ YouTube Downloader</h3>
+      <div class="endpoint-row">
+        <span class="method-badge get">GET</span>
+        <code class="endpoint-path">/api/dl/youtube?url={url}&format={fmt}&quality={q}</code>
+      </div>
+      <div class="endpoint-row">
+        <span class="method-badge get">GET</span>
+        <code class="endpoint-path">/api/dl/youtube/formats?url={url}</code>
+        <span class="body-hint">Get all available formats</span>
+      </div>
+      <h4 class="param-title">Supported URLs</h4>
+      <div class="doc-code-block">
+        <span class="code-label">SUPPORTED FORMATS</span>
+        <pre>https://www.youtube.com/watch?v=VIDEO_ID
+https://youtu.be/VIDEO_ID
+https://youtube.com/shorts/VIDEO_ID
+https://www.youtube.com/embed/VIDEO_ID</pre>
+      </div>
+      <h4 class="param-title">Available Formats</h4>
+      <table class="doc-table">
+        <thead><tr><th>Format</th><th>Quality</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>mp4</td><td>1080p / 720p / 480p / 360p / 240p / 144p</td><td>Video with audio</td></tr>
+          <tr><td>mp3</td><td>128kbps / 320kbps</td><td>Audio only</td></tr>
+          <tr><td>m4a</td><td>best</td><td>Audio M4A format</td></tr>
+          <tr><td>webm</td><td>best</td><td>WebM video</td></tr>
+        </tbody>
+      </table>
+      <div class="doc-code-block">
+        <span class="code-label">EXAMPLE</span>
+        <pre>GET /api/dl/youtube?url=https://youtu.be/dQw4w9WgXcQ&format=mp3&quality=best</pre>
+      </div>
+    </section>
+
+    <!-- TikTok -->
+    <section id="dl-tiktok" class="doc-section">
+      <h3 class="doc-h3">🎵 TikTok Downloader</h3>
+      <div class="endpoint-row">
+        <span class="method-badge get">GET</span>
+        <code class="endpoint-path">/api/dl/tiktok?url={url}</code>
+      </div>
+      <p>Downloads TikTok videos without watermark. Also returns HD version and audio.</p>
+      <table class="doc-table">
+        <thead><tr><th>Format</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>mp4 (no watermark)</td><td>Clean video without TikTok watermark</td></tr>
+          <tr><td>mp4 (HD)</td><td>High definition version</td></tr>
+          <tr><td>mp3</td><td>Background audio/music</td></tr>
+        </tbody>
+      </table>
+      <div class="doc-code-block">
+        <span class="code-label">EXAMPLE</span>
+        <pre>GET /api/dl/tiktok?url=https://www.tiktok.com/@user/video/1234567890</pre>
+      </div>
+      <div class="doc-code-block">
+        <span class="code-label">JSON RESPONSE</span>
+        <pre>{
+  "success": true,
+  "platform": "tiktok",
+  "data": {
+    "id": "1234567890",
+    "title": "Video caption here",
+    "author": { "username": "user", "nickname": "User Name" },
+    "thumbnail": "https://...",
+    "duration": 30,
+    "statistics": { "plays": 1000000, "likes": 50000 },
+    "download": {
+      "no_watermark": "https://...",
+      "hd": "https://...",
+      "audio": "https://..."
+    },
+    "formats": [...]
+  }
+}</pre>
+      </div>
+    </section>
+
+    <!-- Instagram -->
+    <section id="dl-instagram" class="doc-section">
+      <h3 class="doc-h3">📸 Instagram Downloader</h3>
+      <div class="endpoint-row">
+        <span class="method-badge get">GET</span>
+        <code class="endpoint-path">/api/dl/instagram?url={url}</code>
+      </div>
+      <p>Download Instagram Reels, Posts, and Stories.</p>
+      <div class="doc-note warning">
+        <strong>Note:</strong> Instagram has strict rate limiting. Public posts only. Private accounts are not supported.
+      </div>
+      <div class="doc-code-block">
+        <span class="code-label">SUPPORTED URLS</span>
+        <pre>https://www.instagram.com/reel/REEL_ID/
+https://www.instagram.com/p/POST_ID/
+https://www.instagram.com/stories/user/STORY_ID/</pre>
+      </div>
+    </section>
+
+    <!-- Twitter -->
+    <section id="dl-twitter" class="doc-section">
+      <h3 class="doc-h3">🐦 Twitter / X Downloader</h3>
+      <div class="endpoint-row">
+        <span class="method-badge get">GET</span>
+        <code class="endpoint-path">/api/dl/twitter?url={url}</code>
+      </div>
+      <div class="doc-code-block">
+        <span class="code-label">SUPPORTED URLS</span>
+        <pre>https://twitter.com/user/status/TWEET_ID
+https://x.com/user/status/TWEET_ID</pre>
+      </div>
+      <table class="doc-table">
+        <thead><tr><th>Format</th><th>Quality</th></tr></thead>
+        <tbody>
+          <tr><td>mp4</td><td>1280x720 (HD), 640x360 (SD)</td></tr>
+          <tr><td>gif</td><td>Original quality</td></tr>
+          <tr><td>mp3</td><td>Audio only</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Facebook -->
+    <section id="dl-facebook" class="doc-section">
+      <h3 class="doc-h3">📘 Facebook Downloader</h3>
+      <div class="endpoint-row">
+        <span class="method-badge get">GET</span>
+        <code class="endpoint-path">/api/dl/facebook?url={url}</code>
+      </div>
+      <div class="doc-code-block">
+        <span class="code-label">SUPPORTED URLS</span>
+        <pre>https://www.facebook.com/watch?v=VIDEO_ID
+https://www.facebook.com/username/videos/VIDEO_ID
+https://fb.watch/SHORT_ID</pre>
+      </div>
+    </section>
+
+    <!-- Scribd -->
+    <section id="dl-scribd" class="doc-section">
+      <h3 class="doc-h3">📄 Scribd Downloader</h3>
+      <div class="endpoint-row">
+        <span class="method-badge get">GET</span>
+        <code class="endpoint-path">/api/dl/scribd?url={url}</code>
+      </div>
+      <p>Download Scribd documents as PDF, DOCX, or plain text.</p>
+      <div class="doc-code-block">
+        <span class="code-label">SUPPORTED URLS</span>
+        <pre>https://www.scribd.com/document/DOC_ID/Title
+https://www.scribd.com/doc/DOC_ID/Title
+https://www.scribd.com/presentation/DOC_ID/Title</pre>
+      </div>
+      <table class="doc-table">
+        <thead><tr><th>Format</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>pdf</td><td>PDF Document (original)</td></tr>
+          <tr><td>txt</td><td>Plain text extraction</td></tr>
+          <tr><td>docx</td><td>Word document format</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         SEARCH ENDPOINTS
+    ══════════════════════════════════════════════════════ -->
+    <section id="search" class="doc-section">
+      <h2 class="doc-h2" style="font-size:1.6rem;border-bottom:1px solid var(--border);padding-bottom:12px;">🔍 Search Endpoints</h2>
+    </section>
+
+    <section id="search-youtube" class="doc-section">
+      <h3 class="doc-h3">▶ YouTube Search</h3>
+      <div class="endpoint-row">
+        <span class="method-badge get">GET</span>
+        <code class="endpoint-path">/api/search/youtube?q={query}&limit={n}</code>
+      </div>
+      <table class="doc-table">
+        <thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>q</code></td><td>string</td><td>—</td><td>Search query (required)</td></tr>
+          <tr><td><code>limit</code></td><td>number</td><td>10</td><td>Number of results (max 50)</td></tr>
+        </tbody>
+      </table>
+      <div class="doc-code-block">
+        <span class="code-label">EXAMPLE</span>
+        <pre>GET /api/search/youtube?q=lofi+hip+hop&limit=5</pre>
+      </div>
+      <div class="doc-code-block">
+        <span class="code-label">JSON RESPONSE</span>
+        <pre>{
+  "success": true,
+  "platform": "youtube",
+  "query": "lofi hip hop",
+  "count": 5,
+  "results": [
+    {
+      "id": "VIDEO_ID",
+      "title": "lofi hip hop radio",
+      "author": "Lofi Girl",
+      "thumbnail": "https://i.ytimg.com/vi/VIDEO_ID/mqdefault.jpg",
+      "duration": "LIVE",
+      "views": "1,234,567 watching",
+      "published": "Streamed 2 years ago",
+      "url": "https://www.youtube.com/watch?v=VIDEO_ID"
+    }
+  ]
+}</pre>
+      </div>
+    </section>
+
+    <section id="search-web" class="doc-section">
+      <h3 class="doc-h3">🌐 Web Search (DuckDuckGo)</h3>
+      <div class="endpoint-row">
+        <span class="method-badge get">GET</span>
+        <code class="endpoint-path">/api/search/web?q={query}&limit={n}</code>
+      </div>
+      <div class="doc-code-block">
+        <span class="code-label">EXAMPLE</span>
+        <pre>GET /api/search/web?q=nodejs+tutorial&limit=10</pre>
+      </div>
+      <div class="doc-code-block">
+        <span class="code-label">JSON RESPONSE</span>
+        <pre>{
+  "success": true,
+  "platform": "web",
+  "query": "nodejs tutorial",
+  "count": 8,
+  "results": [
+    {
+      "title": "Node.js Tutorial",
+      "description": "Node.js is a cross-platform...",
+      "url": "https://nodejs.org/en/learn",
+      "source": "nodejs.org",
+      "type": "abstract"
+    }
+  ]
+}</pre>
+      </div>
+    </section>
+
+    <section id="search-all" class="doc-section">
+      <h3 class="doc-h3">🔍 All-in-One Search</h3>
+      <div class="endpoint-row">
+        <span class="method-badge get">GET</span>
+        <code class="endpoint-path">/api/search?q={query}&type={type}&limit={n}</code>
+      </div>
+      <div class="endpoint-row">
+        <span class="method-badge post">POST</span>
+        <code class="endpoint-path">/api/search</code>
+        <span class="body-hint">body: { q, type, limit }</span>
+      </div>
+      <table class="doc-table">
+        <thead><tr><th>Type Value</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>youtube</code></td><td>YouTube video search</td></tr>
+          <tr><td><code>web</code></td><td>Web search via DuckDuckGo</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         CODE EXAMPLES
+    ══════════════════════════════════════════════════════ -->
+    <section id="examples" class="doc-section">
+      <h2 class="doc-h2">💡 Code Examples</h2>
+
+      <h3 class="doc-h3">JavaScript / Node.js</h3>
+      <div class="doc-code-block">
+        <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
+        <span class="code-label">JavaScript (fetch)</span>
+        <pre>const BASE_URL = 'https://xayz-downloader.vercel.app';
+
+// Download TikTok video (no watermark)
+async function downloadTikTok(url) {
+  const res = await fetch(`${BASE_URL}/api/dl/tiktok?url=${encodeURIComponent(url)}`);
+  const data = await res.json();
+  
+  if (!data.success) throw new Error(data.error);
+  
+  const { download, title, author } = data.data;
+  console.log(`Title: ${title}`);
+  console.log(`No watermark: ${download.no_watermark}`);
+  console.log(`HD: ${download.hd}`);
+  
+  return data;
+}
+
+// Get YouTube formats then download
+async function getYouTubeFormats(url) {
+  const res = await fetch(`${BASE_URL}/api/dl/youtube/formats?url=${encodeURIComponent(url)}`);
+  const data = await res.json();
+  
+  console.log('Available formats:');
+  data.formats.forEach(f => {
+    console.log(`  ${f.label} (${f.format}) - ${f.size || 'N/A'}`);
+  });
+  
+  return data.formats;
+}
+
+// Search YouTube
+async function searchYouTube(query, limit = 10) {
+  const params = new URLSearchParams({ q: query, limit });
+  const res = await fetch(`${BASE_URL}/api/search/youtube?${params}`);
+  const data = await res.json();
+  
+  data.results.forEach(v => {
+    console.log(`${v.title} by ${v.author} [${v.duration}]`);
+    console.log(`  URL: ${v.url}`);
+  });
+  
+  return data.results;
+}
+
+// Usage examples
+await downloadTikTok('https://www.tiktok.com/@user/video/123');
+await getYouTubeFormats('https://youtu.be/dQw4w9WgXcQ');
+await searchYouTube('lofi music', 5);</pre>
+      </div>
+
+      <h3 class="doc-h3">Python</h3>
+      <div class="doc-code-block">
+        <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
+        <span class="code-label">Python (requests)</span>
+        <pre>import requests
+
+BASE_URL = 'https://xayz-downloader.vercel.app'
+session = requests.Session()
+session.headers.update({'User-Agent': 'MyApp/1.0'})
+
+def download_youtube(url, format='mp4', quality='720p'):
+    """Download YouTube video with specified format and quality"""
+    res = session.get(f'{BASE_URL}/api/dl/youtube', params={
+        'url': url, 'format': format, 'quality': quality
+    })
+    data = res.json()
+    if not data['success']:
+        raise Exception(data['error'])
+    return data['data']
+
+def download_tiktok(url):
+    """Download TikTok video without watermark"""
+    res = session.get(f'{BASE_URL}/api/dl/tiktok', params={'url': url})
+    data = res.json()
+    if not data['success']:
+        raise Exception(data['error'])
+    return data['data']
+
+def download_scribd(url):
+    """Download Scribd document"""
+    res = session.get(f'{BASE_URL}/api/dl/scribd', params={'url': url})
+    return res.json()
+
+def search_youtube(query, limit=10):
+    """Search YouTube videos"""
+    res = session.get(f'{BASE_URL}/api/search/youtube', params={
+        'q': query, 'limit': limit
+    })
+    return res.json()['results']
+
+def detect_and_download(url):
+    """Auto-detect platform and download"""
+    res = session.get(f'{BASE_URL}/api/dl', params={'url': url})
+    return res.json()
+
+# ── Examples ─────────────────────────────────────────────
+if __name__ == '__main__':
+    # YouTube
+    yt = download_youtube('https://youtu.be/dQw4w9WgXcQ', quality='1080p')
+    print(f"YouTube: {yt['title']}")
+    for fmt in yt['formats']:
+        print(f"  {fmt['label']} -> {fmt['format']}")
+
+    # TikTok
+    tt = download_tiktok('https://www.tiktok.com/@user/video/123456')
+    print(f"TikTok: {tt['title']}")
+    print(f"  No watermark: {tt['download']['no_watermark']}")
+
+    # Search
+    results = search_youtube('python tutorial', limit=5)
+    for v in results:
+        print(f"  {v['title']} - {v['views']}")</pre>
+      </div>
+
+      <h3 class="doc-h3">PHP</h3>
+      <div class="doc-code-block">
+        <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
+        <span class="code-label">PHP</span>
+        <pre>&lt;?php
+define('BASE_URL', 'https://xayz-downloader.vercel.app');
+
+function apiRequest($endpoint, $params = []) {
+    $url = BASE_URL . $endpoint;
+    if (!empty($params)) {
+        $url .= '?' . http_build_query($params);
+    }
+    
+    $context = stream_context_create([
+        'http' => [
+            'timeout' => 15,
+            'header' => 'User-Agent: MyApp/1.0'
+        ]
+    ]);
+    
+    $response = file_get_contents($url, false, $context);
+    return json_decode($response, true);
+}
+
+// Download YouTube
+function downloadYouTube($url, $format = 'mp4', $quality = '720p') {
+    return apiRequest('/api/dl/youtube', [
+        'url' => $url, 'format' => $format, 'quality' => $quality
+    ]);
+}
+
+// Search YouTube
+function searchYouTube($query, $limit = 10) {
+    return apiRequest('/api/search/youtube', ['q' => $query, 'limit' => $limit]);
+}
+
+// Auto-detect download
+function downloadAny($url) {
+    return apiRequest('/api/dl', ['url' => $url]);
+}
+
+// Usage
+$yt = downloadYouTube('https://youtu.be/dQw4w9WgXcQ');
+echo $yt['data']['title'] . "\n";
+foreach ($yt['data']['formats'] as $fmt) {
+    echo "  {$fmt['label']} ({$fmt['format']})\n";
+}
+?&gt;</pre>
+      </div>
+
+      <h3 class="doc-h3">Node.js with Axios</h3>
+      <div class="doc-code-block">
+        <button class="copy-btn" onclick="copyBlock(this)">Copy</button>
+        <span class="code-label">Node.js CJS</span>
+        <pre>'use strict';
+const axios = require('axios');
+
+const api = axios.create({
+  baseURL: 'https://xayz-downloader.vercel.app',
+  timeout: 15000
+});
+
+// Download any URL (auto-detect)
+async function downloadAny(url, format = 'mp4', quality = '720p') {
+  const { data } = await api.get('/api/dl', { params: { url, format, quality } });
+  return data;
+}
+
+// Get YouTube info with all formats
+async function getYouTubeFormats(url) {
+  const { data } = await api.get('/api/dl/youtube/formats', { params: { url } });
+  return data;
+}
+
+// Search YouTube
+async function searchYouTube(q, limit = 10) {
+  const { data } = await api.get('/api/search/youtube', { params: { q, limit } });
+  return data.results;
+}
+
+// Download TikTok
+async function downloadTikTok(url) {
+  const { data } = await api.get('/api/dl/tiktok', { params: { url } });
+  return data.data;
+}
+
+(async () => {
+  // Download YouTube as MP3
+  const audio = await downloadAny('https://youtu.be/dQw4w9WgXcQ', 'mp3', 'best');
+  console.log('Audio:', audio.data.title);
+
+  // Search
+  const results = await searchYouTube('coding music', 3);
+  results.forEach(v => console.log('-', v.title));
+})();</pre>
+      </div>
+    </section>
+
+    <!-- ── Error Codes ─────────────────────────────────────── -->
+    <section id="errors" class="doc-section">
+      <h2 class="doc-h2">❌ Error Codes</h2>
+      <table class="doc-table">
+        <thead><tr><th>HTTP Status</th><th>Error</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><span class="status-badge s400">400</span></td><td>Bad Request</td><td>Missing required parameter (url, q)</td></tr>
+          <tr><td><span class="status-badge s404">404</span></td><td>Not Found</td><td>Endpoint does not exist</td></tr>
+          <tr><td><span class="status-badge s422">422</span></td><td>Unprocessable</td><td>Platform not supported or URL invalid</td></tr>
+          <tr><td><span class="status-badge s429">429</span></td><td>Rate Limited</td><td>Too many requests (60/min limit)</td></tr>
+          <tr><td><span class="status-badge s500">500</span></td><td>Server Error</td><td>Internal error or upstream API failure</td></tr>
+        </tbody>
+      </table>
+      <h4 class="param-title">Error Response Format</h4>
+      <div class="doc-code-block">
+        <span class="code-label">JSON</span>
+        <pre>{
+  "success": false,
+  "error": "URL parameter is required"
+}</pre>
+      </div>
+    </section>
+
+    <!-- ── Deploy Guide ────────────────────────────────────── -->
+    <section id="deploy" class="doc-section">
+      <h2 class="doc-h2">🚀 Deploy Guide</h2>
+      <p>Deploy your own instance of AllDown to Vercel in minutes.</p>
+
+      <h4 class="param-title">1. Clone & Install</h4>
+      <div class="doc-code-block">
+        <span class="code-label">TERMINAL</span>
+        <pre>git clone https://github.com/yourusername/alldown-api.git
+cd alldown-api
+npm install</pre>
+      </div>
+
+      <h4 class="param-title">2. Run Locally</h4>
+      <div class="doc-code-block">
+        <span class="code-label">TERMINAL</span>
+        <pre># Development mode (with auto-restart)
+node --watch index.js
+
+# Or standard
+npm start
+
+# API available at:
+# http://localhost:3000/api
+# http://localhost:3000/docs/api</pre>
+      </div>
+
+      <h4 class="param-title">3. Deploy to Vercel</h4>
+      <div class="doc-code-block">
+        <span class="code-label">TERMINAL</span>
+        <pre># Install Vercel CLI
+npm install -g vercel
+
+# Login
+vercel login
+
+# Deploy
+vercel
+
+# Or deploy to production
+vercel --prod</pre>
+      </div>
+
+      <h4 class="param-title">4. GitHub Auto-Deploy</h4>
+      <div class="doc-code-block">
+        <span class="code-label">TERMINAL</span>
+        <pre>git init
+git add .
+git commit -m "Initial commit: AllDown API"
+git branch -M main
+git remote add origin https://github.com/yourusername/alldown-api.git
+git push -u origin main
+
+# Then connect your GitHub repo to Vercel:
+# vercel.com/new → Import Git Repository → Select repo</pre>
+      </div>
+
+      <div class="doc-note success">
+        <strong>✓ Auto-Deploy:</strong> After connecting GitHub to Vercel, every push to <code>main</code> automatically deploys a new version.
+      </div>
+
+      <h4 class="param-title">Project Structure</h4>
+      <div class="doc-code-block">
+        <span class="code-label">FILE TREE</span>
+        <pre>alldown-api/
+├── index.js              ← Express server entry
+├── package.json          ← Dependencies + Node 24 config
+├── vercel.json           ← Vercel deployment config
+├── .gitignore
+├── README.md
+├── api/
+│   ├── router.js         ← API route definitions
+│   └── handlers/
+│       ├── youtube.js    ← YouTube handler
+│       ├── tiktok.js     ← TikTok handler
+│       ├── instagram.js  ← Instagram handler
+│       ├── twitter.js    ← Twitter/X handler
+│       ├── facebook.js   ← Facebook handler
+│       ├── scribd.js     ← Scribd handler
+│       ├── search.js     ← Search handler
+│       └── universal.js  ← URL auto-detect
+└── public/
+    ├── index.html        ← Homepage
+    ├── docs.html         ← This page
+    ├── style.css         ← Main styles
+    ├── docs.css          ← Docs styles
+    └── app.js            ← Frontend JS</pre>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer class="footer" style="margin-top:0">
+  <div class="footer-inner">
+    <span class="footer-logo">⬇ AllDown</span>
+    <span class="footer-copy">API v1.0.0 · Node.js v24 · MIT License</span>
+    <a href="/" class="footer-link">← Back to App</a>
+  </div>
+</footer>
+
+<script>
+// Sidebar
+const sidebar = document.getElementById('sidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+document.getElementById('hamburgerBtn').addEventListener('click', () => {
+  sidebar.classList.add('open');
+  sidebarOverlay.classList.add('active');
+});
+document.getElementById('sidebarClose').addEventListener('click', () => {
+  sidebar.classList.remove('open');
+  sidebarOverlay.classList.remove('active');
+});
+sidebarOverlay.addEventListener('click', () => {
+  sidebar.classList.remove('open');
+  sidebarOverlay.classList.remove('active');
+});
+
+// Copy buttons
+function copyBlock(btn) {
+  const pre = btn.nextElementSibling.nextElementSibling;
+  navigator.clipboard.writeText(pre.textContent).then(() => {
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 2000);
+  });
+}
+window.copyBlock = copyBlock;
+
+// Active TOC highlight
+const sections = document.querySelectorAll('.doc-section[id]');
+const tocLinks = document.querySelectorAll('.toc-link');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      tocLinks.forEach(l => {
+        l.classList.toggle('active', l.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

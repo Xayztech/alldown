@@ -1,0 +1,36 @@
+{
+  "name": "alldown-api",
+  "version": "1.0.0",
+  "description": "All Downloader & Search API - Download anything from YouTube, TikTok, Scribd, Instagram, Twitter, and more",
+  "main": "index.js",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "dependencies": {
+    "@distube/ytdl-core": "^4.16.8",
+    "axios": "^1.7.9",
+    "cheerio": "^1.0.0",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "he": "^1.2.0",
+    "node-fetch": "^3.3.2",
+    "ytsr": "^3.9.1"
+  },
+  "keywords": [
+    "downloader",
+    "youtube",
+    "tiktok",
+    "instagram",
+    "twitter",
+    "scribd",
+    "api",
+    "search"
+  ],
+  "author": "AllDown API",
+  "license": "MIT"
+}

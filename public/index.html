@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AllDown — Universal Downloader & Search API</title>
+<meta name="description" content="Download anything from YouTube, TikTok, Instagram, Scribd, Twitter and more. Powerful REST API with search capabilities."/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css"/>
+</head>
+<body>
+<!-- ── Sidebar ─────────────────────────────────────────────── -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <span class="sidebar-logo">⬇ AllDown</span>
+    <button class="sidebar-close" id="sidebarClose" aria-label="Close menu">✕</button>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="/" class="nav-link active">🏠 Home</a>
+    <a href="#downloader" class="nav-link">⬇ Downloader</a>
+    <a href="#search" class="nav-link">🔍 Search</a>
+    <a href="/docs/api" class="nav-link">📖 API Docs</a>
+    <div class="nav-divider"></div>
+    <span class="nav-section-label">Platforms</span>
+    <a href="#" class="nav-link" data-platform="youtube">▶ YouTube</a>
+    <a href="#" class="nav-link" data-platform="tiktok">🎵 TikTok</a>
+    <a href="#" class="nav-link" data-platform="instagram">📸 Instagram</a>
+    <a href="#" class="nav-link" data-platform="twitter">🐦 Twitter / X</a>
+    <a href="#" class="nav-link" data-platform="facebook">📘 Facebook</a>
+    <a href="#" class="nav-link" data-platform="scribd">📄 Scribd</a>
+    <div class="nav-divider"></div>
+    <span class="nav-section-label">API</span>
+    <a href="/docs/api#endpoints" class="nav-link">⚡ Endpoints</a>
+    <a href="/docs/api#search" class="nav-link">🔎 Search API</a>
+    <a href="/docs/api#examples" class="nav-link">💡 Examples</a>
+  </nav>
+  <div class="sidebar-footer">
+    <span class="api-badge">v1.0.0</span>
+    <span class="api-badge">Node 24</span>
+  </div>
+</aside>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- ── Top Navbar ─────────────────────────────────────────── -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <button class="hamburger" id="hamburgerBtn" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+    <a href="/" class="topbar-logo">⬇ <strong>AllDown</strong></a>
+    <nav class="topbar-nav">
+      <a href="/" class="tlink active">Home</a>
+      <a href="#downloader" class="tlink">Downloader</a>
+      <a href="#search" class="tlink">Search</a>
+      <a href="/docs/api" class="tlink">API Docs</a>
+    </nav>
+    <a href="/docs/api" class="btn-api-docs">API Docs →</a>
+  </div>
+</header>
+
+<!-- ── Hero ───────────────────────────────────────────────── -->
+<main>
+  <section class="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-content">
+      <div class="hero-tag">⚡ Free · Open · Fast</div>
+      <h1 class="hero-title">Download <span class="accent">Anything.</span><br>From Anywhere.</h1>
+      <p class="hero-sub">YouTube · TikTok · Instagram · Twitter · Facebook · Scribd · and more.<br>Full REST API with search, multiple formats, and quality selection.</p>
+      
+      <!-- URL Input -->
+      <div class="url-input-wrap" id="downloader">
+        <div class="url-input-box">
+          <span class="url-icon">🔗</span>
+          <input type="url" id="urlInput" placeholder="Paste any URL here… YouTube, TikTok, Instagram, Scribd…" autocomplete="off" spellcheck="false"/>
+          <select id="formatSelect" class="format-sel">
+            <option value="mp4">MP4</option>
+            <option value="mp3">MP3</option>
+            <option value="webm">WebM</option>
+            <option value="m4a">M4A</option>
+            <option value="pdf">PDF</option>
+            <option value="best">Best</option>
+          </select>
+          <select id="qualitySelect" class="quality-sel">
+            <option value="1080p">1080p</option>
+            <option value="720p" selected>720p</option>
+            <option value="480p">480p</option>
+            <option value="360p">360p</option>
+            <option value="240p">240p</option>
+            <option value="144p">144p</option>
+            <option value="best">Best</option>
+          </select>
+          <button class="btn-download" id="downloadBtn">⬇ Download</button>
+        </div>
+        <div class="url-platforms">
+          <span class="plat-chip" data-p="youtube">▶ YouTube</span>
+          <span class="plat-chip" data-p="tiktok">🎵 TikTok</span>
+          <span class="plat-chip" data-p="instagram">📸 Instagram</span>
+          <span class="plat-chip" data-p="twitter">🐦 Twitter</span>
+          <span class="plat-chip" data-p="facebook">📘 Facebook</span>
+          <span class="plat-chip" data-p="scribd">📄 Scribd</span>
+        </div>
+      </div>
+
+      <!-- Result Box -->
+      <div class="result-box" id="resultBox" style="display:none"></div>
+    </div>
+  </section>
+
+  <!-- ── Search Section ───────────────────────────────────── -->
+  <section class="search-section" id="search">
+    <div class="section-inner">
+      <h2 class="section-title">🔍 Search</h2>
+      <p class="section-sub">Search YouTube videos and the web directly through the API.</p>
+      <div class="search-wrap">
+        <div class="search-type-tabs">
+          <button class="stab active" data-type="youtube">▶ YouTube</button>
+          <button class="stab" data-type="web">🌐 Web</button>
+        </div>
+        <div class="search-input-row">
+          <input type="text" id="searchInput" class="search-inp" placeholder="Search for anything…"/>
+          <input type="number" id="searchLimit" class="limit-inp" value="10" min="1" max="50" title="Result limit"/>
+          <button class="btn-search" id="searchBtn">Search</button>
+        </div>
+        <div class="search-results" id="searchResults"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Features ─────────────────────────────────────────── -->
+  <section class="features-section">
+    <div class="section-inner">
+      <h2 class="section-title">Why AllDown?</h2>
+      <div class="features-grid">
+        <div class="feat-card">
+          <div class="feat-icon">⚡</div>
+          <h3>Fast & Free</h3>
+          <p>No registration required. No limits on personal use. Lightning-fast processing.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">🎛</div>
+          <h3>Any Format & Quality</h3>
+          <p>MP4, MP3, WebM, M4A, PDF. Choose from 144p to 4K. Audio extraction included.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">🔌</div>
+          <h3>REST API</h3>
+          <p>Full JSON API. Integrate into any app. Search, download, format detection all available.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">🌐</div>
+          <h3>All Platforms</h3>
+          <p>YouTube, TikTok, Instagram, Twitter, Facebook, Scribd — one API for everything.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">📄</div>
+          <h3>Document Support</h3>
+          <p>Download Scribd documents as PDF or text. No subscription needed.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">🔒</div>
+          <h3>Rate Limited & Safe</h3>
+          <p>Built-in rate limiting (60 req/min). CORS enabled. Production-ready on Vercel.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Quick API Snippet ─────────────────────────────────── -->
+  <section class="snippet-section">
+    <div class="section-inner">
+      <h2 class="section-title">Quick API Example</h2>
+      <p class="section-sub">Start downloading in seconds. <a href="/docs/api" class="accent-link">Full docs →</a></p>
+      <div class="code-tabs">
+        <button class="ctab active" data-lang="curl">cURL</button>
+        <button class="ctab" data-lang="js">JavaScript</button>
+        <button class="ctab" data-lang="python">Python</button>
+        <button class="ctab" data-lang="php">PHP</button>
+      </div>
+      <div class="code-block" id="codeBlock">
+        <button class="copy-btn" id="copyBtn" onclick="copyCode()">Copy</button>
+        <pre id="codeContent"></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Supported Platforms ──────────────────────────────── -->
+  <section class="platforms-section">
+    <div class="section-inner">
+      <h2 class="section-title">Supported Platforms</h2>
+      <div class="platforms-grid">
+        <div class="plat-card">
+          <span class="plat-emoji">▶</span>
+          <span class="plat-name">YouTube</span>
+          <span class="plat-tag">Video + Audio</span>
+        </div>
+        <div class="plat-card">
+          <span class="plat-emoji">🎵</span>
+          <span class="plat-name">TikTok</span>
+          <span class="plat-tag">No Watermark</span>
+        </div>
+        <div class="plat-card">
+          <span class="plat-emoji">📸</span>
+          <span class="plat-name">Instagram</span>
+          <span class="plat-tag">Reels + Posts</span>
+        </div>
+        <div class="plat-card">
+          <span class="plat-emoji">🐦</span>
+          <span class="plat-name">Twitter / X</span>
+          <span class="plat-tag">Video + GIF</span>
+        </div>
+        <div class="plat-card">
+          <span class="plat-emoji">📘</span>
+          <span class="plat-name">Facebook</span>
+          <span class="plat-tag">HD + SD</span>
+        </div>
+        <div class="plat-card">
+          <span class="plat-emoji">📄</span>
+          <span class="plat-name">Scribd</span>
+          <span class="plat-tag">PDF + Doc</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ── Footer ─────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="footer-inner">
+    <span class="footer-logo">⬇ AllDown</span>
+    <span class="footer-copy">Open source · Node.js v24 · Deployed on Vercel</span>
+    <a href="/docs/api" class="footer-link">API Docs</a>
+  </div>
+</footer>
+
+<script src="/app.js"></script>
+</body>
+</html>
